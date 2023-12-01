@@ -79,5 +79,13 @@ const filters = ref({
   span {
     font-weight: 900;
   }
+
+  input {
+    @media (max-width: 549px) {
+      flex-basis: 100%;
+      margin-top: 15px;
+      order: 1;
+    }
+  }
 }
 </style>
