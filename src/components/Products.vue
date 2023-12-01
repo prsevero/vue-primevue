@@ -8,10 +8,10 @@ import { FilterMatchMode } from 'primevue/api'
 import { ProductService } from '@/service/ProductService'
 
 const columns = [
-  { field: 'code', header: 'Code', sortable: true },
+  { field: 'id', header: 'Code', sortable: true },
+  { field: 'commercial_number', header: 'Reference number', sortable: true },
   { field: 'name', header: 'Name', sortable: true },
-  { field: 'category', header: 'Category' },
-  { field: 'quantity', header: 'Quantity', sortable: true }
+  { field: 'price', header: 'Price', sortable: true }
 ]
 
 const props = defineProps({
@@ -30,23 +30,27 @@ onMounted(() => {
 })
 
 const products = ref()
+const expandedRows = ref([])
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 })
+const formatCurrency = (value) =>
+  value.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' });
 </script>
 
 <template>
   <DataTable
+    v-model:expandedRows="expandedRows"
     v-model:filters="filters"
-    :globalFilterFields="['code', 'name', 'category', 'quantity']"
+    :globalFilterFields="['id', 'commercial_number', 'description', 'name', 'price']"
+    :value="products"
+    removableSort
     resizableColumns
     scrollable
     sortMode="multiple"
-    removableSort
-    :value="products"
-    stripedRows
-    stateStorage="local"
     stateKey="datatable-state"
+    stateStorage="local"
+    stripedRows
   >
     <template #header>
       <div class="datatable__header">
@@ -59,13 +63,26 @@ const filters = ref({
         <Button @click="handleRefresh">Refresh</Button>
       </div>
     </template>
+    <Column expander style="max-width: 3rem !important" />
     <Column
       v-for="col of columns"
       :key="col.field"
       :field="col.field"
       :header="col.header"
       :sortable="col.sortable"
-    ></Column>
+    >
+      <template #body="slotProps">
+        <template v-if="col.field === 'price'">
+          {{ formatCurrency(slotProps.data.price) }}
+        </template>
+        <template v-else>
+          {{ slotProps.data[col.field] }}
+        </template>
+      </template>
+    </Column>
+    <template #expansion="slotProps">
+      {{ slotProps.data.description }}
+    </template>
   </DataTable>
 </template>
 
