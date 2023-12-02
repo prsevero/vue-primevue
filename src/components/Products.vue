@@ -10,7 +10,7 @@ import { ProductService } from '@/service/ProductService'
 const columns = [
   { field: 'id', header: 'Code', sortable: true },
   { field: 'commercial_number', header: 'Reference number', sortable: true },
-  { field: 'name', header: 'Name', sortable: true },
+  { field: 'name', header: 'Category', sortable: true },
   { field: 'price', header: 'Price', sortable: true }
 ]
 
@@ -44,6 +44,7 @@ const formatCurrency = (value) =>
     v-model:filters="filters"
     :globalFilterFields="['id', 'commercial_number', 'description', 'name', 'price']"
     :value="products"
+    dataKey="id"
     removableSort
     resizableColumns
     scrollable
@@ -52,6 +53,8 @@ const formatCurrency = (value) =>
     stateStorage="local"
     stripedRows
   >
+    <template #loading>Loading data, please wait...</template>
+    <template #empty>No data found, try to reset your filters.</template>
     <template #header>
       <div class="datatable__header">
         <span>Products</span>
