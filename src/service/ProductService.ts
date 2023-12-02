@@ -6,12 +6,13 @@ export const ProductService = {
         name: 'Disco de travão',
         description: 'Eixo traseiro, 232x9mm, 5x100, cheio, revestido, com parafusos',
         commercial_number: 'BD767',
-        price: 20.80
+        price: 20.8
       },
       {
         id: '0 986 478 853',
         name: 'Disco de travão',
-        description: 'Eixo dianteiro, 256x22mm, 5x100, ventilado, revestido, alto carbono, com parafusos',
+        description:
+          'Eixo dianteiro, 256x22mm, 5x100, ventilado, revestido, alto carbono, com parafusos',
         commercial_number: 'BD753',
         price: 32.07
       },

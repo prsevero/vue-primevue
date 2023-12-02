@@ -21,26 +21,30 @@ const props = defineProps({
   }
 })
 
-const handleRefresh = () => {
-  ProductService.getProductsMini().then((data) => (products.value = data))
+const handleClearFilter = () => {
+  initFilters()
 }
 
 onMounted(() => {
-  handleRefresh()
+  ProductService.getProductsMini().then((data) => (products.value = data))
 })
 
 const products = ref()
-const expandedRows = ref([])
-const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS }
-})
+
+const filters = ref()
+const initFilters = () => {
+  filters.value = {
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+  }
+}
+initFilters()
+
 const formatCurrency = (value) =>
-  value.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' });
+  value.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })
 </script>
 
 <template>
   <DataTable
-    v-model:expandedRows="expandedRows"
     v-model:filters="filters"
     :globalFilterFields="['id', 'commercial_number', 'description', 'name', 'price']"
     :value="products"
@@ -54,7 +58,10 @@ const formatCurrency = (value) =>
     stripedRows
   >
     <template #loading>Loading data, please wait...</template>
-    <template #empty>No data found, try to reset your filters.</template>
+    <template #empty
+      >No data found, try to <Button @click="handleClearFilter" label="reset" link /> your
+      filters.</template
+    >
     <template #header>
       <div class="datatable__header">
         <span>Products</span>
@@ -63,10 +70,9 @@ const formatCurrency = (value) =>
           v-model="filters['global'].value"
           placeholder="Keyword Search"
         />
-        <Button @click="handleRefresh">Refresh</Button>
+        <Button @click="handleClearFilter">Clear search</Button>
       </div>
     </template>
-    <Column expander style="max-width: 3rem !important" />
     <Column
       v-for="col of columns"
       :key="col.field"
@@ -107,5 +113,9 @@ const formatCurrency = (value) =>
       order: 1;
     }
   }
+}
+
+.p-button-link {
+  padding: 0.2rem 0;
 }
 </style>

@@ -12,7 +12,7 @@ describe('Products', () => {
     cy.get('.datatable__header').should('be.visible')
     cy.get('.datatable__header > span').should('be.visible').and('have.text', 'Products')
     cy.get('.datatable__header > input').should('be.visible')
-    cy.get('.datatable__header > button').should('be.visible').and('have.text', 'Refresh')
+    cy.get('.datatable__header > button').should('be.visible').and('have.text', 'Clear search')
   })
 
   it('should not has search if displaySearch is false', () => {
@@ -23,6 +23,20 @@ describe('Products', () => {
   it('should has four columns', () => {
     cy.mount(Products)
     cy.get('.p-datatable-thead > tr > th').should(($th) => {
+      expect($th).to.have.length(4)
+    })
+  })
+
+  it('should all be resizable', () => {
+    cy.mount(Products)
+    cy.get('.p-datatable-thead > tr > th.p-resizable-column').should(($th) => {
+      expect($th).to.have.length(4)
+    })
+  })
+
+  it('should all be sortable', () => {
+    cy.mount(Products)
+    cy.get('.p-datatable-thead > tr > th.p-sortable-column').should(($th) => {
       expect($th).to.have.length(4)
     })
   })
