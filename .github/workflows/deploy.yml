@@ -30,7 +30,7 @@ jobs:
           cd ./dist
           echo "Compressing these files:"
           ls -al
-          zip -qq -r -T ../../vue-primevue.zip *
+          zip -qq -r -T vue-primevue.zip *
 
       - name: Save Build Artifact
         uses: actions/upload-artifact@v2
