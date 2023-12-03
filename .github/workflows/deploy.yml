@@ -3,15 +3,10 @@ name: Deploy
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: client
     strategy:
       matrix:
         node-version: ["20.9"]
@@ -45,9 +40,6 @@ jobs:
   deploy-web-production:
     needs: [build]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: client
 
     steps:
       - uses: actions/download-artifact@v2
