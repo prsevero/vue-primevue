@@ -30,7 +30,7 @@ jobs:
           cd ./dist
           echo "Compressing these files:"
           ls -al
-          zip -qq -r -T vue-primevue.zip *
+          zip -qq -r -T ../vue-primevue.zip *
 
       - name: Save Build Artifact
         uses: actions/upload-artifact@v3
@@ -39,7 +39,7 @@ jobs:
           path: vue-primevue.zip
           if-no-files-found: error
 
-  deploy-web-production:
+  deploy:
     needs: [build]
     runs-on: ubuntu-latest
 
