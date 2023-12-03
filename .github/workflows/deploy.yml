@@ -13,9 +13,9 @@ jobs:
       matrix:
         node-version: ["20.9"]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - run: |
@@ -23,7 +23,7 @@ jobs:
           npm run build-only
 
       - name: Install Zip
-        uses: montudor/action-zip@v0.1.1
+        uses: montudor/action-zip
 
       - name: Zip Dist as Artifact (at root /)
         run: |
@@ -33,7 +33,7 @@ jobs:
           zip -qq -r -T vue-primevue.zip *
 
       - name: Save Build Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: vue-primevue.zip
           path: vue-primevue.zip
